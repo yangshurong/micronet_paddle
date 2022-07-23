@@ -1,0 +1,33 @@
+----------------- Options ---------------
+                     arch: MicroNet                      
+               batch_size: 16                            
+               checkpoint: C:\Users\Administrator\Desktop\micronet-main\imagenet
+                     data: C:\Users\Administrator\Desktop\quant_100imgs\quant_100imgs\val
+             data_backend: pytorch                       
+             dist_backend: nccl                          
+                 dist_url: tcp://224.66.41.62:23456      
+              distributed: False                         
+                   epochs: 90                            
+                 evaluate: True                          
+                    gamma: 0.1                           
+               input_size: 224                           
+          label_smoothing: 0.1                           
+                       lr: 0.1                           
+                 lr_decay: step                          
+                    mixup: 0.0                           
+                 momentum: 0.9                           
+                     opts: ['MODEL.MICRONETS.BLOCK', 'DYMicroBlock', 'MODEL.MICRONETS.NET_CONFIG', 'msnx_dy12_exp6_20M_020', 'MODEL.MICRONETS.STEM_CH', '12', 'MODEL.MICRONETS.STEM_GROUPS', '4,3', 'MODEL.MICRONETS.STEM_DILATION', '1', 'MODEL.MICRONETS.STEM_MODE', 'spatialsepsf', 'MODEL.MICRONETS.OUT_CH', '1024', 'MODEL.MICRONETS.DEPTHSEP', 'True', 'MODEL.MICRONETS.POINTWISE', 'group', 'MODEL.MICRONETS.DROPOUT', '0.1', 'MODEL.ACTIVATION.MODULE', 'DYShiftMax', 'MODEL.ACTIVATION.ACT_MAX', '2.0', 'MODEL.ACTIVATION.LINEARSE_BIAS', 'False', 'MODEL.ACTIVATION.INIT_A_BLOCK3', '1.0,0.0', 'MODEL.ACTIVATION.INIT_A', '1.0,0.5', 'MODEL.ACTIVATION.INIT_B', '0.0,0.5', 'MODEL.ACTIVATION.REDUCTION', '8', 'MODEL.MICRONETS.SHUFFLE', 'True']
+               pretrained: False                         
+               print_freq: 10                            
+                     rank: -1                            
+                   resume:                               
+                 schedule: [30, 60, 90]                  
+                     seed: None                          
+              start_epoch: 0                             
+                     step: 30                            
+                   warmup: False                         
+                   weight: C:\Users\Administrator\Desktop\micronet-main\backbone\micronet-m3.pth
+             weight_decay: 0.0001                        
+                  workers: 4                             
+               world_size: -1                            
+----------------- End -------------------

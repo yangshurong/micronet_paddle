@@ -1,0 +1,536 @@
+DataParallel(
+  (module): MicroNet(
+    (features): Sequential(
+      (0): StemLayer(
+        (stem): Sequential(
+          (0): SpatialSepConvSF(
+            (conv): Sequential(
+              (0): Conv2d(3, 4, kernel_size=(3, 1), stride=(2, 1), padding=(1, 0), bias=False)
+              (1): BatchNorm2d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(4, 12, kernel_size=(1, 3), stride=(1, 2), padding=(0, 1), groups=4, bias=False)
+              (3): BatchNorm2d(12, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (4): ChannelShuffle()
+            )
+          )
+          (1): ReLU6(inplace=True)
+        )
+      )
+      (1): DYMicroBlock(
+        (layers): Sequential(
+          (0): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(12, 24, kernel_size=(3, 1), stride=(2, 1), padding=(1, 0), groups=12, bias=False)
+              (1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(24, 48, kernel_size=(1, 3), stride=(1, 2), padding=(0, 1), groups=24, bias=False)
+              (3): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=48, out_features=8, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=8, out_features=192, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (2): ChannelShuffle()
+          (3): ChannelShuffle2()
+          (4): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(48, 16, kernel_size=(1, 1), stride=(1, 1), groups=4, bias=False)
+              (1): BatchNorm2d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (5): Sequential()
+          (6): ChannelShuffle()
+          (7): Sequential()
+        )
+      )
+      (2): DYMicroBlock(
+        (layers): Sequential(
+          (0): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(16, 32, kernel_size=(3, 1), stride=(2, 1), padding=(1, 0), groups=16, bias=False)
+              (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(32, 64, kernel_size=(1, 3), stride=(1, 2), padding=(0, 1), groups=32, bias=False)
+              (3): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=64, out_features=8, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=8, out_features=256, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (2): ChannelShuffle()
+          (3): ChannelShuffle2()
+          (4): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(64, 24, kernel_size=(1, 1), stride=(1, 1), groups=4, bias=False)
+              (1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (5): Sequential()
+          (6): ChannelShuffle()
+          (7): Sequential()
+        )
+      )
+      (3): DYMicroBlock(
+        (layers): Sequential(
+          (0): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(24, 48, kernel_size=(3, 1), stride=(1, 1), padding=(1, 0), groups=24, bias=False)
+              (1): BatchNorm2d(48, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(48, 96, kernel_size=(1, 3), stride=(1, 1), padding=(0, 1), groups=48, bias=False)
+              (3): BatchNorm2d(96, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=96, out_features=12, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=12, out_features=384, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (2): ChannelShuffle()
+          (3): ChannelShuffle2()
+          (4): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(96, 24, kernel_size=(1, 1), stride=(1, 1), groups=4, bias=False)
+              (1): BatchNorm2d(24, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (5): Sequential()
+          (6): ChannelShuffle()
+          (7): Sequential()
+        )
+      )
+      (4): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(24, 144, kernel_size=(1, 1), stride=(1, 1), groups=6, bias=False)
+              (1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(144, 144, kernel_size=(5, 1), stride=(2, 1), padding=(2, 0), groups=144, bias=False)
+              (1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(144, 144, kernel_size=(1, 5), stride=(1, 2), padding=(0, 2), groups=144, bias=False)
+              (3): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=144, out_features=20, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=20, out_features=576, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(144, 32, kernel_size=(1, 1), stride=(1, 1), groups=4, bias=False)
+              (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (5): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), groups=8, bias=False)
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(192, 192, kernel_size=(5, 1), stride=(1, 1), padding=(2, 0), groups=192, bias=False)
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(192, 192, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2), groups=192, bias=False)
+              (3): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=192, out_features=12, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=12, out_features=768, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(192, 32, kernel_size=(1, 1), stride=(1, 1), groups=4, bias=False)
+              (1): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (6): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(32, 192, kernel_size=(1, 1), stride=(1, 1), groups=8, bias=False)
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(192, 192, kernel_size=(5, 1), stride=(1, 1), padding=(2, 0), groups=192, bias=False)
+              (1): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(192, 192, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2), groups=192, bias=False)
+              (3): BatchNorm2d(192, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=192, out_features=12, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=12, out_features=768, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(192, 64, kernel_size=(1, 1), stride=(1, 1), groups=8, bias=False)
+              (1): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (7): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(64, 384, kernel_size=(1, 1), stride=(1, 1), groups=8, bias=False)
+              (1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(384, 384, kernel_size=(5, 1), stride=(1, 1), padding=(2, 0), groups=384, bias=False)
+              (1): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(384, 384, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2), groups=384, bias=False)
+              (3): BatchNorm2d(384, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=384, out_features=24, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=24, out_features=1536, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(384, 80, kernel_size=(1, 1), stride=(1, 1), groups=8, bias=False)
+              (1): BatchNorm2d(80, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (8): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(80, 480, kernel_size=(1, 1), stride=(1, 1), groups=10, bias=False)
+              (1): BatchNorm2d(480, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(480, 480, kernel_size=(5, 1), stride=(1, 1), padding=(2, 0), groups=480, bias=False)
+              (1): BatchNorm2d(480, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(480, 480, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2), groups=480, bias=False)
+              (3): BatchNorm2d(480, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=480, out_features=32, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=32, out_features=1920, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(480, 80, kernel_size=(1, 1), stride=(1, 1), groups=8, bias=False)
+              (1): BatchNorm2d(80, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (9): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(80, 480, kernel_size=(1, 1), stride=(1, 1), groups=10, bias=False)
+              (1): BatchNorm2d(480, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(480, 480, kernel_size=(5, 1), stride=(2, 1), padding=(2, 0), groups=480, bias=False)
+              (1): BatchNorm2d(480, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(480, 480, kernel_size=(1, 5), stride=(1, 2), padding=(0, 2), groups=480, bias=False)
+              (3): BatchNorm2d(480, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=480, out_features=32, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=32, out_features=1920, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(480, 120, kernel_size=(1, 1), stride=(1, 1), groups=10, bias=False)
+              (1): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (10): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(120, 720, kernel_size=(1, 1), stride=(1, 1), groups=12, bias=False)
+              (1): BatchNorm2d(720, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(720, 720, kernel_size=(5, 1), stride=(1, 1), padding=(2, 0), groups=720, bias=False)
+              (1): BatchNorm2d(720, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(720, 720, kernel_size=(1, 5), stride=(1, 1), padding=(0, 2), groups=720, bias=False)
+              (3): BatchNorm2d(720, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=720, out_features=44, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=44, out_features=2880, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(720, 120, kernel_size=(1, 1), stride=(1, 1), groups=10, bias=False)
+              (1): BatchNorm2d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (11): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(120, 720, kernel_size=(1, 1), stride=(1, 1), groups=12, bias=False)
+              (1): BatchNorm2d(720, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): ReLU6(inplace=True)
+          (2): ChannelShuffle()
+          (3): DepthSpatialSepConv(
+            (conv): Sequential(
+              (0): Conv2d(720, 720, kernel_size=(3, 1), stride=(1, 1), padding=(1, 0), groups=720, bias=False)
+              (1): BatchNorm2d(720, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+              (2): Conv2d(720, 720, kernel_size=(1, 3), stride=(1, 1), padding=(0, 1), groups=720, bias=False)
+              (3): BatchNorm2d(720, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (4): Sequential()
+          (5): DYShiftMax(
+            (avg_pool): Sequential(
+              (0): Sequential()
+              (1): AdaptiveAvgPool2d(output_size=1)
+            )
+            (fc): Sequential(
+              (0): Linear(in_features=720, out_features=44, bias=True)
+              (1): ReLU(inplace=True)
+              (2): Linear(in_features=44, out_features=2880, bias=True)
+              (3): h_sigmoid(
+                (relu): ReLU6(inplace=True)
+              )
+            )
+          )
+          (6): ChannelShuffle2()
+          (7): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(720, 144, kernel_size=(1, 1), stride=(1, 1), groups=12, bias=False)
+              (1): BatchNorm2d(144, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (8): Sequential()
+          (9): ChannelShuffle()
+          (10): Sequential()
+        )
+      )
+      (12): DYMicroBlock(
+        (layers): Sequential(
+          (0): GroupConv(
+            (conv): Sequential(
+              (0): Conv2d(144, 864, kernel_size=(1, 1), stride=(1, 1), groups=12, bias=False)
+              (1): BatchNorm2d(864, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+            )
+          )
+          (1): Sequential()
+        )
+      )
+    )
+    (avgpool): Sequential(
+      (0): ReLU6(inplace=True)
+      (1): AdaptiveAvgPool2d(output_size=(1, 1))
+      (2): h_swish(
+        (sigmoid): h_sigmoid(
+          (relu): ReLU6(inplace=True)
+        )
+      )
+    )
+    (classifier): Sequential(
+      (0): SwishLinear(
+        (linear): Sequential(
+          (0): Linear(in_features=864, out_features=1024, bias=True)
+          (1): BatchNorm1d(1024, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): h_swish(
+            (sigmoid): h_sigmoid(
+              (relu): ReLU6(inplace=True)
+            )
+          )
+        )
+      )
+      (1): Dropout(p=0.1, inplace=False)
+      (2): SwishLinear(
+        (linear): Sequential(
+          (0): Linear(in_features=1024, out_features=1000, bias=True)
+          (1): BatchNorm1d(1000, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): h_swish(
+            (sigmoid): h_sigmoid(
+              (relu): ReLU6(inplace=True)
+            )
+          )
+        )
+      )
+    )
+  )
+)
