@@ -1,3 +1,6 @@
+# 这里是基于paddle框架复现micronet的
+# 已经半完成了基于PaddleDetection复现micronet了
+[paddleDetection_micronet](https://gitee.com/yang-shurong/paddle-detection_micronet)
 # MicroNet: Improving Image Recognition with Extremely Low FLOPs (ICCV 2021)
 A [pytorch](http://pytorch.org/) implementation of [MicroNet](https://arxiv.org/abs/2108.05894).
 If you use this code in your research please consider citing
